@@ -1,4 +1,4 @@
-import "./css/main.css";
+import "../styles/main.css";
 import * as signalR from "@aspnet/signalr";
 
 const divMessages: HTMLDivElement = document.querySelector("#divMessages");
