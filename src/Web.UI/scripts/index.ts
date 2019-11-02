@@ -1,5 +1,5 @@
 import '../styles/main.css';
-import * as signalR from '@aspnet/signalr';
+import * as signalR from '@microsoft/signalr'
 import { CanvasEngine } from './canvasEngine';
 import { GameState } from './models';
 import { Connection } from './connection/connection-service';
