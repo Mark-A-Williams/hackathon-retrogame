@@ -163,8 +163,11 @@ namespace Model
             // Todo: increase ball's speed based on fewer players remaining
 
             var _random = new Random();
-            var randomx = (_random.NextDouble() * 2) + 1;
-            var randomy = (_random.NextDouble() * 2) + 1;
+            var velocityMagnitude = 1;
+            var randomAngle = _random.NextDouble()*2*Math.PI;
+            var randomx = velocityMagnitude * Math.Cos(randomAngle);
+            var randomy = velocityMagnitude * Math.Cos(randomAngle);
+            
             var resurrectedBall = new Ball(Vector.Zero, new Vector(randomx, randomy));
             var newPlayerList = gameState.Players.Remove(playerToKill);
             return new GameState(resurrectedBall, newPlayerList);

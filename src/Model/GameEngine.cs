@@ -40,8 +40,10 @@ namespace Model
             }
 
             // Flick
-            var randomx = (_random.NextDouble() * 2) + 1;
-            var randomy = (_random.NextDouble() * 2) + 1;
+            var startVelocityMagnitude = 1;
+            var randomAngle = _random.NextDouble()*2*Math.PI;
+            var randomx = startVelocityMagnitude * Math.Cos(randomAngle);
+            var randomy = startVelocityMagnitude * Math.Cos(randomAngle);
 
             var ball = new Ball(Vector.Zero, new Vector(randomx, randomy));
 
