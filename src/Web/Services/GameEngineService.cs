@@ -18,7 +18,7 @@ namespace Web.Services
             _codeService = codeService;
         }
 
-        private readonly int _tickDelayActive = 300;
+        private readonly int _tickDelayActive = 100;
         private readonly int _tickDelayIdle = 3000;
 
         private readonly ConcurrentDictionary<string, GameEngine> _games = new ConcurrentDictionary<string, GameEngine>();
@@ -27,7 +27,7 @@ namespace Web.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var activeGames = _games.Values.Where(o => o.IsActive).ToArray();
+                var activeGames = _games.Values.Where(o => o.HasStarted).ToArray();
 
                 var delay = Task.Delay(activeGames.Any() ? _tickDelayActive : _tickDelayIdle);
 
