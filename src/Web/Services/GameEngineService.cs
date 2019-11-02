@@ -27,7 +27,7 @@ namespace Web.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var activeGames = _games.Values.Where(o => o.IsActive).ToArray();
+                var activeGames = _games.Values.Where(o => o.HasStarted).ToArray();
 
                 var delay = Task.Delay(activeGames.Any() ? _tickDelayActive : _tickDelayIdle);
 
