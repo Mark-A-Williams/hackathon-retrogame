@@ -57,7 +57,7 @@ namespace Model
                 var playerDeflectedBall = DidBallMoveIntersectPlayerPaddle(oldBall, newBall, player);
                 if (playerDeflectedBall)
                 {
-                    var deflectedBall = CalculateBallCollision();
+                    var deflectedBall = CalculateBallCollision(oldBall, newBall, player);
                     return new GameState(
                         deflectedBall,
                         gameState.Players
@@ -134,10 +134,14 @@ namespace Model
             return false;
         }
 
-        public static Ball CalculateBallCollision()
+        public static Ball CalculateBallCollision(Vector oldBall, Vector newBall, Player player)
         {
+            var ballLine = new Line(oldBall, newBall);
+            var paddleLine = new Line(player.GetPaddleStartCoords(), player.GetPaddleEndCoords());
+            var intersectionPoint = LineIntersectionService.FindIntersection(ballLine, paddleLine);
+
             // who even knows what this will look like
-            return new Ball(Vector.Zero, Vector.Zero);
+            return new Ball(intersectionPoint, Vector.Zero);
         }
 
         public static GameState KillPlayer(GameState gameState, Player playerToKill)
