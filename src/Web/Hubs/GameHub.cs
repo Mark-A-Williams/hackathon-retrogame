@@ -76,5 +76,17 @@ namespace Web.Hubs
 
             _gameEngineService.MovePlayer(gameId, playerId, position);
         }
+
+        public async Task StartGame(string gameId)
+        {
+            if (!_groupStore.GroupExists(gameId))
+            {
+                return;
+            }
+
+            // Kick off game engine here?
+
+            await Clients.Group(gameId).SendAsync(ClientMethods.OnGameStart);
+        }
     }
 }

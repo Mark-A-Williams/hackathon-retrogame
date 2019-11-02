@@ -4,7 +4,7 @@ namespace Web.Hubs
     {
         public static readonly string OnCodeSet = "onCodeSet";
         public static readonly string OnPlayerJoined = "onPlayerJoined";
-
         public static readonly string OnGameStateUpdate = "onGameStateUpdate";
+        public static readonly string OnGameStart = "onGameStart";
     }
 }

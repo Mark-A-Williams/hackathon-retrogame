@@ -9,12 +9,14 @@ export namespace Connection
         private readonly OnCodeSetName: string = "onCodeSet";
         private readonly OnPlayerJoinedName: string = "onPlayerJoined";
         private readonly OnGameStateUpdateName: string = "onGameStateUpdate";
+        private readonly OnGameStartName: string = "onGameStart";
 
         // Server methods
         private readonly CreateNewGameName: string = "CreateNewGame";
         private readonly JoinGameName: string = "JoinGame";
         private readonly GetGameStateName: string = "GetGameState";
         private readonly UpdatePositionName: string = "UpdatePosition";
+        private readonly StartGameName: string = "StartGame";
 
         private readonly _connection: signalR.HubConnection;
 
@@ -22,6 +24,7 @@ export namespace Connection
         private readonly _onCodeSetCallbacks: {(code: string) : void }[] = [];
         private readonly _onPlayerJoinedCallbacks: {(userName: string) : void }[] = [];
         private readonly _onGameStateUpdateCallbacks: {(gameState: GameState) : void }[] = [];
+        private readonly _onGameStartCallbacks: {() : void}[] = [];
 
         public constructor() {
             this._connection = new signalR.HubConnectionBuilder()
@@ -31,6 +34,7 @@ export namespace Connection
             this._connection.on(this.OnCodeSetName, (code: string) => this._onCodeSetCallbacks.forEach((f) => f(code)));
             this._connection.on(this.OnPlayerJoinedName, (userName: string) => this._onPlayerJoinedCallbacks.forEach((f) => f(userName)));
             this._connection.on(this.OnGameStateUpdateName, (gameState: GameState) => this._onGameStateUpdateCallbacks.forEach((f) => f(gameState)));
+            this._connection.on(this.OnGameStartName, () => this._onGameStartCallbacks.forEach(f => f()));
 
             this._connection.start().catch(err => console.log(err));
         }
@@ -61,6 +65,10 @@ export namespace Connection
 
         public UpdatePosition(position: number): void {
             this._connection.invoke(this.UpdatePositionName, position);
+        }
+
+        public StartGame(gameCode: string): void {
+            this._connection.invoke(this.StartGameName, gameCode);
         }
     }
 }

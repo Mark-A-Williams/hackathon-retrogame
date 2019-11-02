@@ -27,6 +27,8 @@ connection.onPlayerJoined = (userName: string) => {
     joinedPlayersOutput.appendChild(newListEl);
 };
 
+connection.onGameStateUpdate = (state: GameState) => canvasEngine.drawFrame(state);
+
 createGameBtn.addEventListener("click", () => connection.CreateGame());
 joinGameBtn.addEventListener("click", () => connection.JoinGame(usernameInput.value, gameCodeInput.value));
 
