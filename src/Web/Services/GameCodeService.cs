@@ -6,7 +6,7 @@ namespace Web.Services
     public class GameCodeService
     {
         private const int Length = 4;
-        private readonly Random _random;
+        private readonly Random _random = new Random();
         private readonly string _chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
         public string GetCode()
