@@ -1,28 +1,24 @@
 using System;
+using System.Collections.Generic;
 
 namespace Model
 {
     public class Player
     {
+        public Guid Id { get; }
         public int Index { get; }
         public string Color { get; }
-        public float Position { get; }
+        public PlayerArea PlayerArea { get; set; }
+        public List<Vector> PaddleEndCoords {get; set; }
+        public double Position { get; } // position of centre of paddle from 0 to 1
 
-        public Player(int index, string color, float position)
+        public Player(Guid id, int index, string color, double position)
         {
+            Id = id;
             Index = index;
             Color = color;
             Position = position;
-        }
-
-        public Vector GetCentreCoordsFromPlayerIndex(int index, int numPlayers)
-        {
-            var theta_n = 2*Math.PI*index/numPlayers;
-            var phi = Math.Cos(Math.PI/numPlayers);
-            var xPos = phi*Math.Cos(theta_n);
-            var yPos = phi*Math.Sin(theta_n); 
-            var centreCoord = new Vector(xPos, yPos);
-            return centreCoord;
+            PlayerArea = new PlayerArea(index);
         }
     }
 }

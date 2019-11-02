@@ -1,6 +1,7 @@
-import "../styles/main.css";
-import * as signalR from "@aspnet/signalr";
+import '../styles/main.css';
+import * as signalR from '@aspnet/signalr';
 import { CanvasEngine } from './canvasEngine';
+import { GameState } from './models';
 
 const btnFrame: HTMLButtonElement = document.querySelector("#frameButton");
 const canvasEngine = new CanvasEngine();
@@ -13,9 +14,7 @@ const usernameInput: HTMLInputElement = document.querySelector('#username-input'
 const gameCodeInput: HTMLInputElement = document.querySelector('#game-code-input');
 const joinGameBtn: HTMLButtonElement = document.querySelector('#join-game-button');
 
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/hub")
-    .build();
+const connection = new signalR.HubConnectionBuilder().withUrl('/hub').build();
 
 connection.on("onCodeSet", (code: string) => {
     createdGameCodeOuput.innerText = code;

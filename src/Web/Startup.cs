@@ -20,6 +20,7 @@ namespace Web
         {
             services.AddSingleton<IGroupStore, GroupStore>();
             services.AddSignalR();
+            services.AddHostedService<GameEngineService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
