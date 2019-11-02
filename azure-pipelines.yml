@@ -25,8 +25,8 @@ steps:
   inputs:
     command: 'publish'
 
-- task: PublishPipelineArtifact@1
+- task: PublishBuildArtifacts@1
   inputs:
-    targetPath: 'src/Web/bin/Debug/netcoreapp3.0/publish'
-    artifact: 'publish'
-    publishLocation: 'pipeline'
+    PathtoPublish: 'src/Web/bin/Debug/netcoreapp3.0/publish'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'

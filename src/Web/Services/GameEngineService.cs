@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +18,8 @@ namespace Web.Services
             _codeService = codeService;
         }
 
-        private readonly int _tickDelay = 300;
+        private readonly int _tickDelayActive = 300;
+        private readonly int _tickDelayIdle = 3000;
 
         private readonly ConcurrentDictionary<string, GameEngine> _games = new ConcurrentDictionary<string, GameEngine>();
 
@@ -25,9 +27,11 @@ namespace Web.Services
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var delay = Task.Delay(_tickDelay);
+                var activeGames = _games.Values.Where(o => o.IsActive).ToArray();
 
-                foreach (var game in _games.Values)
+                var delay = Task.Delay(activeGames.Any() ? _tickDelayActive : _tickDelayIdle);
+
+                foreach (var game in activeGames)
                 {
                     game.Tick();
                 }
