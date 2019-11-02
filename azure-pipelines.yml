@@ -28,7 +28,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'echo ''Web.txt'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
+    script: 'echo ''Web.zip'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
 
 - task: PublishBuildArtifacts@1
   inputs:
