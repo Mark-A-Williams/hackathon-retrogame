@@ -18,6 +18,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +36,7 @@ namespace Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<GameHub>("/hub");
+                endpoints.MapControllers();
             });
         }
     }
