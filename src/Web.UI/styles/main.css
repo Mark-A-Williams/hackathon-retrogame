@@ -120,7 +120,9 @@ body {
   right: 0;
   top: 0;
   padding: 1rem;
-  opacity: .5;
+  color: white;
+  font-size: 32px;
+  margin: 32px 16px;
 }
 
 .button {
