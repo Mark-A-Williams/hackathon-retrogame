@@ -31,3 +31,7 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+- task: CmdLine@2
+  inputs:
+    script: 'echo ''Web.txt'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
