@@ -43,9 +43,55 @@ namespace Model
             );
         }
 
-        public static GameState ApplyCollisionDetection(this GameState gameState)
+        public static GameState ApplyCollisionDetection(this GameState gameState, Vector oldBall)
         {
-            return gameState;
+            var newBall = gameState.Ball.Position;
+            var playerIntersectedIndex = DidBallMoveIntersectPlayAreaEdge(oldBall, newBall);
+            if (playerIntersectedIndex == null)
+            {
+                return gameState;
+            }
+            else
+            {
+                var playerDeflectedBall = DidBallMoveIntersectPlayerPaddle(oldBall, newBall, playerIntersectedIndex.Value);
+                if (playerDeflectedBall)
+                {
+                    var deflectedBall = CalculateBallCollision();
+                    return new GameState(
+                        deflectedBall,
+                        gameState.Players
+                    );
+                }
+                else
+                {
+                    return KillPlayer(gameState, playerIntersectedIndex.Value);
+                }
+            }
+        }
+
+        public static int? DidBallMoveIntersectPlayAreaEdge(Vector oldBall, Vector newBall)
+        {
+            return 3;
+        }
+
+        public static bool DidBallMoveIntersectPlayerPaddle(Vector oldBall, Vector newBall, int playerIndex)
+        {
+            return false;
+        }
+
+        public static Ball CalculateBallCollision()
+        {
+            // who even knows what this will look like
+            return new Ball(Vector.Zero, Vector.Zero);
+        }
+
+        public static GameState KillPlayer(GameState gameState, int playerIndex)
+        {
+            // Todo (at least the ball's velocity, rest might be ok)
+            var resurrectedBall = new Ball(Vector.Zero, Vector.Zero);
+            var playerToKill = gameState.Players.Where(p => p.Index == playerIndex).FirstOrDefault();
+            var newPlayerList = gameState.Players.Remove(playerToKill);
+            return new GameState(resurrectedBall, newPlayerList);
         }
     }
 }

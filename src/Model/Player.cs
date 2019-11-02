@@ -23,7 +23,7 @@ namespace Model
             PlayerArea = new PlayerArea(index);
         }
 
-        private List<Vector> GetPaddleEndCoords()
+        public List<Vector> GetPaddleEndCoords()
         {
             var vStart = PlayerArea.StartCoords; // vector coordinates of start end of paddle
             var vEnd = PlayerArea.EndCoords; // vector coordinates of end end of paddle

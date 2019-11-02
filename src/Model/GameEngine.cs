@@ -114,13 +114,14 @@ namespace Model
         public void Tick()
         {
             _moveLock.EnterWriteLock();
+            var oldBallPosition = State.Ball.Position;
 
             try
             {
                 State = State
                     .ApplyMoves(_moves)
                     .MoveBall()
-                    .ApplyCollisionDetection();
+                    .ApplyCollisionDetection(oldBallPosition);
             }
             finally
             {
