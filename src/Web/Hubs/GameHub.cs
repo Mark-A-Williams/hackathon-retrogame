@@ -64,5 +64,17 @@ namespace Web.Hubs
 
             await Clients.Caller.SendAsync(ClientMethods.OnGameStateUpdate, gameState);
         }
+
+        public void UpdatePosition(string gameId, float position)
+        {
+            if (!_groupStore.GroupExists(gameId))
+            {
+                return;
+            }
+
+            var playerId = _playerStore.GetPlayer(Context.ConnectionId).Id;
+
+            _gameEngineService.MovePlayer(gameId, playerId, position);
+        }
     }
 }

@@ -14,8 +14,11 @@ export namespace Connection
         private readonly CreateNewGameName: string = "CreateNewGame";
         private readonly JoinGameName: string = "JoinGame";
         private readonly GetGameStateName: string = "GetGameState";
+        private readonly UpdatePositionName: string = "UpdatePosition";
 
         private readonly _connection: signalR.HubConnection;
+
+        // Callbacks for client methods
         private readonly _onCodeSetCallbacks: {(code: string) : void }[] = [];
         private readonly _onPlayerJoinedCallbacks: {(userName: string) : void }[] = [];
         private readonly _onGameStateUpdateCallbacks: {(gameState: GameState) : void }[] = [];
@@ -52,8 +55,12 @@ export namespace Connection
             this._connection.invoke(this.JoinGameName, userName, gameCode);
         }
 
-        public GetGameState(gameCode: string): void  {
+        public RequestGameState(gameCode: string): void  {
             this._connection.invoke(this.GetGameStateName, gameCode);
+        }
+
+        public UpdatePosition(position: number): void {
+            this._connection.invoke(this.UpdatePositionName, position);
         }
     }
 }
