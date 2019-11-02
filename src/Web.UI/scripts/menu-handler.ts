@@ -19,14 +19,14 @@ export class MenuHandler {
         this.gameCodeInput = document.querySelector('#gameCodeInput');
         this.userNameInput = document.querySelector('#userNameInput');
         this.joinGameForm = document.querySelector('#joinGameForm');
-        this.startGameButton = document.querySelector('#start-game')
+        this.startGameButton = document.querySelector('#start-game');
         this.newGameButton.addEventListener('click', () => {
             this._newGameCallbacks.forEach(f => f());
         });
 
         this.startGameButton.addEventListener('click', () => {
             this._startGameCallbacks.forEach(f => f());
-        })
+        });
 
         this.joinGameForm.addEventListener('submit', (e: Event) => {
             e.preventDefault();
