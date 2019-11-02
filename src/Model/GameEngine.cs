@@ -1,12 +1,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace Model
 {
     public class GameEngine
     {
         private readonly int _tickDelay;
+        private readonly ReaderWriterLockSlim _moveLock = new ReaderWriterLockSlim();
+        private readonly ConcurrentQueue<Move> _moves = new ConcurrentQueue<Move>();
 
         public GameEngine(int tickDelay)
         {
@@ -26,13 +29,35 @@ namespace Model
             }
         }
 
-        public void MovePlayer(Guid playerId, float position) {
+        public void MovePlayer(Guid playerId, float position)
+        {
+            var move = new Move(playerId, position);
+
+            _moveLock.EnterReadLock();
+
+            try
+            {
+                _moves.Enqueue(move);
+            }
+            finally
+            {
+                _moveLock.ExitReadLock();
+            }
         }
 
         private async Task Tick()
         {
-            var updater = new ModelUpdater(Model);
-            Model = updater.GetUpdatedModel();
+            _moveLock.EnterWriteLock();
+
+            try
+            {
+                var updater = new ModelUpdater(Model);
+                Model = updater.GetUpdatedModel();
+            }
+            finally
+            {
+                _moveLock.ExitWriteLock();
+            }
         }
     }
 }
