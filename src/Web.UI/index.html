@@ -6,13 +6,15 @@
 </head>
 <body>
     <div id="menu-view" class="view">
-        <button id="newGameButton">Create a game</button>
-        <h4>Join a game</h4>
-        <form id="joinGameForm">
-            <input id="gameCodeInput" type="text" placeholder="Game code" />
-            <input id="userNameInput" type="text" placeholder="Username" />
-            <button type="submit">Join</button>
-        </form>
+        <div class="menu-container">
+            <button id="newGameButton">Create a game</button>
+            <h4>Join a game</h4>
+            <form id="joinGameForm">
+                <input id="gameCodeInput" type="text" placeholder="Game code" />
+                <input id="userNameInput" type="text" placeholder="Username" />
+                <button type="submit">Join</button>
+            </form>
+        </div>
     </div>
     <div id="paddle-view" class="view">
         <input id="paddle" type="range" min="0" max="1" value="0.5" class="touch-slider" step="0.01">

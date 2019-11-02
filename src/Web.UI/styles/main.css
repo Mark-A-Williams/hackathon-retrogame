@@ -8,6 +8,15 @@ html,
 body {
   margin: 0;
   padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgb(46, 0, 89);
+  background: linear-gradient(
+    180deg,
+    rgba(46, 0, 89, 1) 0%,
+    rgba(111, 7, 102, 1) 55%,
+    rgba(64, 1, 15, 1) 100%
+  );
 }
 
 .view {
@@ -18,29 +27,28 @@ body {
   display: block;
 }
 
-.input-zone {
-  align-items: center;
+#menu-view {
+  width: 100%;
+  height: 100%;
+}
+
+#menu-view.visible {
   display: flex;
-  flex-direction: row;
-  margin: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.input-zone-input {
-  flex: 1;
-  margin-right: 10px;
-}
-
-.message-author {
-  font-weight: bold;
-}
-
-.messages {
-  border: 1px solid #000;
-  margin: 10px;
-  max-height: 300px;
-  min-height: 300px;
-  overflow-y: auto;
-  padding: 5px;
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
 }
 
 .frame-button {
