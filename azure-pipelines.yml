@@ -27,6 +27,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'src/Web/bin/Debug/netcoreapp3.0/publish'
+    PathtoPublish: 'src/Web/bin/Debug/netcoreapp3.0/publish/'
     ArtifactName: 'drop'
     publishLocation: 'Container'
