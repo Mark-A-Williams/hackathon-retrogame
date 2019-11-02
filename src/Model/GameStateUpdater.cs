@@ -57,7 +57,7 @@ namespace Model
                 var playerDeflectedBall = DidBallMoveIntersectPlayerPaddle(oldBall, newBall, player);
                 if (playerDeflectedBall)
                 {
-                    var deflectedBall = CalculateBallCollision(oldBall, newBall, player);
+                    var deflectedBall = CalculateBallCollision(oldBall, newBall, player, gameState);
                     return new GameState(
                         deflectedBall,
                         gameState.Players
@@ -134,14 +134,27 @@ namespace Model
             return false;
         }
 
-        public static Ball CalculateBallCollision(Vector oldBall, Vector newBall, Player player)
+        public static Ball CalculateBallCollision(Vector oldBall, Vector newBall, Player player, GameState gameState)
         {
             var ballLine = new Line(oldBall, newBall);
             var paddleLine = new Line(player.GetPaddleStartCoords(), player.GetPaddleEndCoords());
             var intersectionPoint = LineIntersectionService.FindIntersection(ballLine, paddleLine);
+            var newVelocity = BallVelocityAfterCollision(oldBall, gameState, player);
+
 
             // who even knows what this will look like
-            return new Ball(intersectionPoint, Vector.Zero);
+            return new Ball(intersectionPoint, newVelocity);
+        }
+
+        public static Vector BallVelocityAfterCollision(Vector oldBall, GameState gameState, Player player)
+        {
+            var velocityAbsolute = Math.Sqrt(Math.Pow(oldBall.X,2)+Math.Pow(oldBall.Y,2));
+            var beta = Math.PI*(1 - 2*player.Index/gameState.Players.Count);
+            var initialAngle = Math.Atan(oldBall.Y/oldBall.X);
+            var finalAngle = 2*beta + 2*Math.PI - initialAngle;
+            var xVelocity = velocityAbsolute * Math.Cos(finalAngle);
+            var yVelocity = velocityAbsolute * Math.Sin(finalAngle);
+            return new Vector(xVelocity, yVelocity);
         }
 
         public static GameState KillPlayer(GameState gameState, Player playerToKill)
