@@ -9,7 +9,7 @@ export class PaddleHandler {
     private init() {
         this.paddleSlider = document.querySelector('#paddle');
         this.paddleSlider.addEventListener('input', () => {
-            const position = parseInt(this.paddleSlider.value);
+            const position = +(this.paddleSlider.value);
 
             this._paddleMoveCallbacks.forEach(f => f(position));
         });

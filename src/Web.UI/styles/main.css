@@ -96,19 +96,21 @@ body {
 .touch-slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 300px; /* Slider handle height */
+  width: 33.33%; /* Set a specific slider handle width */
+  height: 40px; /* Slider handle height */
   background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 0;
 }
 
 .touch-slider::-moz-range-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 25px; /* Set a specific slider handle width */
-  height: 300px; /* Slider handle height */
+  width: 33.33%; /* Set a specific slider handle width */
+  height: 40px; /* Slider handle height */
   background: #4caf50; /* Green background */
   cursor: pointer; /* Cursor on hover */
+  border-radius: 0;
 }
 
 .game-code {
