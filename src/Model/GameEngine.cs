@@ -29,9 +29,10 @@ namespace Model
             while (true)
             {
                 var delay = Task.Delay(_tickDelay);
-                var update = Tick();
 
-                await Task.WhenAll(delay, update);
+                Tick();
+
+                await delay;
             }
         }
 
@@ -51,14 +52,15 @@ namespace Model
             }
         }
 
-        private async Task Tick()
+        private void Tick()
         {
             _moveLock.EnterWriteLock();
 
             try
             {
-                var updater = new GameStateUpdater(State);
-                State = await updater.GetUpdatedGameState();
+                State = State
+                    .ApplyMoves(_moves)
+                    .ApplyCollisionDetection();
             }
             finally
             {

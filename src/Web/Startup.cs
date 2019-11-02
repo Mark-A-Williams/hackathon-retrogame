@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Hubs;
+using Web.Services;
 
 namespace Web
 {
@@ -18,6 +19,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+            services.AddHostedService<GameEngineService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

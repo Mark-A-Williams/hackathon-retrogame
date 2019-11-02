@@ -1,20 +1,18 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace Model
 {
-    internal class GameStateUpdater
+    internal static class GameStateUpdater
     {
-        private readonly GameState _original;
-
-        public GameStateUpdater(GameState model)
+        public static GameState ApplyMoves(this GameState gameState, ConcurrentQueue<Move> moves)
         {
-            _original = model;
+            return gameState;
         }
 
-        public async Task<GameState> GetUpdatedGameState()
+        public static GameState ApplyCollisionDetection(this GameState gameState)
         {
-            throw new NotImplementedException();
+            return gameState;
         }
     }
 }
