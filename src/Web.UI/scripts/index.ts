@@ -34,6 +34,10 @@ menuHandler.onNewGameClicked = () => {
     connection.onGameStateUpdate = (state) => canvasEngine.drawFrame(state);
     renderer.renderGameCode(gameCode);
     renderer.showGame();
+
+    menuHandler.onStartGameClick = () => {
+      connection.StartGame(gameCode);
+    }
   };
 };
 
