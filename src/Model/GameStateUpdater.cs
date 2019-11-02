@@ -160,8 +160,12 @@ namespace Model
 
         public static GameState KillPlayer(GameState gameState, Player playerToKill)
         {
-            // Todo (at least the ball's velocity, rest might be ok)
-            var resurrectedBall = new Ball(Vector.Zero, Vector.Zero);
+            // Todo: increase ball's speed based on fewer players remaining
+
+            var _random = new Random();
+            var randomx = (_random.NextDouble() * 2) + 1;
+            var randomy = (_random.NextDouble() * 2) + 1;
+            var resurrectedBall = new Ball(Vector.Zero, new Vector(randomx, randomy));
             var newPlayerList = gameState.Players.Remove(playerToKill);
             return new GameState(resurrectedBall, newPlayerList);
         }
