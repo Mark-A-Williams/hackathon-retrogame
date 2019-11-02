@@ -12,6 +12,7 @@ export class CanvasEngine {
   ballColour = "#f300c0";
   colours: string[] = ['#000000', '#FF0000', '#00FF00', '#0000FF', "#800000", "#FFFF00", "#00FFFF", "#F0F0F0", "#101010"];
   public drawFrame(gameState: GameState) {
+    debugger;
     const canvas: HTMLCanvasElement = document.getElementById(
       'canvas'
     ) as HTMLCanvasElement;
@@ -27,8 +28,8 @@ export class CanvasEngine {
     this.drawShape(numberOfPlayers);
 
     let position: Vector = {
-      x: gameState.ball.xPosition,
-      y: gameState.ball.yPosition
+      x: gameState.ball.position.x + this.canvasSize / 2,
+      y: gameState.ball.position.y + this.canvasSize / 2
     };
 
     this.drawBall(position);
@@ -38,10 +39,10 @@ export class CanvasEngine {
 
   public createMockGamestate(numberOfPlayers: number): GameState {
     const mockBall: Ball = {
-      xPosition:
-        (this.canvasSize / 2) * (Math.random() * 2 - 1) + this.canvasSize / 2,
-      yPosition:
-        (this.canvasSize / 2) * (Math.random() * 2 - 1) + this.canvasSize / 2,
+      position:{
+        x: (this.canvasSize / 2) * (Math.random() * 2 - 1) + this.canvasSize / 2 ,
+        y: (this.canvasSize / 2) * (Math.random() * 2 - 1) + this.canvasSize / 2
+      },
       travel: null
     };
 

@@ -5,8 +5,7 @@ export class GameState {
 }
 
 export class Ball {
-    xPosition: number;
-    yPosition: number;
+    position: Vector;
     travel: Vector; 
 }
 

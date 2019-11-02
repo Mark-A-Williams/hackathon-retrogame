@@ -35,7 +35,9 @@ menuHandler.onNewGameClicked = () => {
         gameCode = code;
         const looper = new GameLoop(code, connection);
         looper.start();
-        connection.onGameStateUpdate = (state) => canvasEngine.drawFrame(state);
+        connection.onGameStateUpdate = (state) => { 
+            console.log(state);
+            canvasEngine.drawFrame(state); }
         renderer.renderGameCode(gameCode);
         renderer.showGame();
 
