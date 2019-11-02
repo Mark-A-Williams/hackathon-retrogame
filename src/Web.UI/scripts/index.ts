@@ -3,39 +3,31 @@ import * as signalR from '@aspnet/signalr';
 import { CanvasEngine } from './canvasEngine';
 import { GameState } from './models';
 
-const divMessages: HTMLDivElement = document.querySelector('#divMessages');
-const tbMessage: HTMLInputElement = document.querySelector('#tbMessage');
-const btnSend: HTMLButtonElement = document.querySelector('#btnSend');
-const btnFrame: HTMLButtonElement = document.querySelector('#frameButton');
-const username = new Date().getTime();
+const btnFrame: HTMLButtonElement = document.querySelector("#frameButton");
 const canvasEngine = new CanvasEngine();
+
+const createGameBtn: HTMLButtonElement = document.querySelector("#create-game-button");
+const createdGameCodeOuput: HTMLParagraphElement = document.querySelector("#created-game-code");
+const joinedPlayersOutput: HTMLUListElement = document.querySelector("#joined-players");
+
+const usernameInput: HTMLInputElement = document.querySelector('#username-input');
+const gameCodeInput: HTMLInputElement = document.querySelector('#game-code-input');
+const joinGameBtn: HTMLButtonElement = document.querySelector('#join-game-button');
 
 const connection = new signalR.HubConnectionBuilder().withUrl('/hub').build();
 
-connection.on('messageReceived', (username: string, message: string) => {
-  let messageContainer = document.createElement('div');
-
-  messageContainer.innerHTML = `<div class="message-author">${username}</div><div>${message}</div>`;
-
-  divMessages.appendChild(messageContainer);
-  divMessages.scrollTop = divMessages.scrollHeight;
+connection.on("onCodeSet", (code: string) => {
+    createdGameCodeOuput.innerText = code;
 });
+
+connection.on("onPlayerJoined", (userName: string) => {
+    const newListEl = document.createElement('li');
+    newListEl.innerText = userName;
+    joinedPlayersOutput.appendChild(newListEl);
+});
+
+createGameBtn.addEventListener("click", () => connection.invoke("CreateNewGame"));
+joinGameBtn.addEventListener("click", () => connection.invoke("JoinGame", gameCodeInput.value, usernameInput.value));
 
 connection.start().catch(err => document.write(err));
-
-tbMessage.addEventListener('keyup', (e: KeyboardEvent) => {
-  if (e.keyCode === 13) {
-    send();
-  }
-});
-
-btnSend.addEventListener('click', send);
-btnFrame.addEventListener('click', () => {
-  const gameState = canvasEngine.createMockGamestate(5);
-  canvasEngine.drawFrame(gameState);
-});
-function send() {
-  connection
-    .send('newMessage', username, tbMessage.value)
-    .then(() => (tbMessage.value = ''));
-}
+btnFrame.addEventListener("click", () => canvasEngine.drawFrame(null));

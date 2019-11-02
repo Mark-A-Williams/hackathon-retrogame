@@ -18,6 +18,7 @@ namespace Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IGroupStore, GroupStore>();
             services.AddSignalR();
             services.AddHostedService<GameEngineService>();
         }
@@ -36,7 +37,7 @@ namespace Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/hub");
+                endpoints.MapHub<GameHub>("/hub");
             });
         }
     }
