@@ -10,6 +10,14 @@ body {
   padding: 0;
 }
 
+.view {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
 .input-zone {
   align-items: center;
   display: flex;
