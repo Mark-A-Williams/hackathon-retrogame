@@ -67,8 +67,8 @@ export namespace Connection
             this._connection.invoke(this.JoinGameName, gameCode, userName);
         }
 
-        public RequestGameState(gameCode: string): void  {
-            this._connection.invoke(this.GetGameStateName, gameCode);
+        public RequestGameState(gameCode: string): Promise<void>  {
+            return this._connection.invoke(this.GetGameStateName, gameCode);
         }
 
         public UpdatePosition(gameRoomName: string, position: number): void {

@@ -2,6 +2,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 html,
@@ -119,5 +120,37 @@ body {
   right: 0;
   top: 0;
   padding: 1rem;
-  opacity: .5;
+  color: white;
+  font-size: 32px;
+  margin: 32px 16px;
+}
+
+.button {
+  margin: 8px 0;
+  padding: 16px;
+  background: purple;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  outline: none;
+  display: block;
+  font-size: 32px;
+}
+
+.button:active {
+  background: #b500b5;
+} 
+
+.form-heading {
+  color: purple;
+  font-weight: 800;
+  font-size: 32px;
+  margin: 16px 0;
+}
+
+.form-input {
+  display: block;
+  margin: 16px 0;
+  font-size: 32px;
+  width: 100%;
 }
