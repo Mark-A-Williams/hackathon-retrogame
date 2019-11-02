@@ -2,6 +2,7 @@ import '../styles/main.css';
 import * as signalR from '@aspnet/signalr';
 import { CanvasEngine } from './canvasEngine';
 import { GameState } from './models';
+import { Connection } from './connection/connection-service';
 
 const btnFrame: HTMLButtonElement = document.querySelector("#frameButton");
 const canvasEngine = new CanvasEngine();
@@ -14,20 +15,19 @@ const usernameInput: HTMLInputElement = document.querySelector('#username-input'
 const gameCodeInput: HTMLInputElement = document.querySelector('#game-code-input');
 const joinGameBtn: HTMLButtonElement = document.querySelector('#join-game-button');
 
-const connection = new signalR.HubConnectionBuilder().withUrl('/hub').build();
+const connection = new Connection.ConnectionService();
 
-connection.on("onCodeSet", (code: string) => {
+connection.onCodeSet = (code: string) => {
     createdGameCodeOuput.innerText = code;
-});
+};
 
-connection.on("onPlayerJoined", (userName: string) => {
+connection.onPlayerJoined = (userName: string) => {
     const newListEl = document.createElement('li');
     newListEl.innerText = userName;
     joinedPlayersOutput.appendChild(newListEl);
-});
+};
 
-createGameBtn.addEventListener("click", () => connection.invoke("CreateNewGame"));
-joinGameBtn.addEventListener("click", () => connection.invoke("JoinGame", gameCodeInput.value, usernameInput.value));
+createGameBtn.addEventListener("click", () => connection.CreateGame());
+joinGameBtn.addEventListener("click", () => connection.JoinGame(usernameInput.value, gameCodeInput.value));
 
-connection.start().catch(err => document.write(err));
 btnFrame.addEventListener("click", () => canvasEngine.drawFrame(null));
