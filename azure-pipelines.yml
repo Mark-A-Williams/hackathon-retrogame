@@ -28,12 +28,12 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'mv Web.zip Web_$(Build.BuildId).zip'
+    script: 'mv Web.zip Web$(Build.BuildNumber).zip'
     workingDirectory: '$(Build.ArtifactStagingDirectory)'
 
 - task: CmdLine@2
   inputs:
-    script: 'echo ''Web_$(Build.BuildId).zip'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
+    script: 'echo ''Web$(Build.BuildNumber).zip'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
 
 - task: PublishBuildArtifacts@1
   inputs:
