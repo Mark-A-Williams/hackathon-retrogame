@@ -7,6 +7,8 @@ export class CanvasEngine {
     ballRadius: number = 5;
     canvasSize: number = 300;
     sideLength: number;
+    paddleLength: number = 0.3;
+    vertices: Vector[];
 
     public drawFrame(gameState: GameState) {
         const canvas: HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
@@ -18,8 +20,8 @@ export class CanvasEngine {
 
         let numberOfPlayers = gameState.players.length;
 
-        this.drawShape(numberOfPlayers);
         this.sideLength = this.calculateSideLength(numberOfPlayers);
+        this.drawShape(numberOfPlayers);
 
         let position: Vector = {
             x: gameState.ball.xPosition,
@@ -27,6 +29,8 @@ export class CanvasEngine {
         };
 
         this.drawBall(position);
+
+        this.drawPaddles(gameState.players);
     }
 
     public createMockGamestate(numberOfPlayers: number): GameState {
@@ -53,51 +57,84 @@ export class CanvasEngine {
             const player: Player = {
                 index: i,
                 color: "#000",
-                paddlePosition: Math.random() * (0.85 - 0.15) + 0.15
+                paddlePosition: Math.random()
             }
 
             players.push(player);
         }
 
-        return players
+        return players;
     }
     public calculateSideLength(numberOfPlayers: number): number {
         // 2 * Radius * Sin(PI / Number of players)
         return this.canvasSize * Math.sin(Math.PI/numberOfPlayers)
     }
 
-    public drawPaddles(players: Player[]){
-        for (const player of players)
+    public drawPaddles(players: Player[]): void{
+        let i;
+        for (i = 0; i < players.length; i++)
         {
-            this.drawPaddle(player.paddlePosition);
+            let startVertex: Vector;
+            let endVertex: Vector;
+            let paddlePostion = players[i].paddlePosition * (1 - this.paddleLength) + this.paddleLength / 2;
+
+            if (i !== players.length - 1)
+            {
+                startVertex = this.vertices[i]
+                endVertex = this.vertices[i + 1]
+            } else {
+                startVertex = this.vertices[i]
+                endVertex = this.vertices[0]
+            }
+
+            const deltaX = endVertex.x - startVertex.x;
+            const deltaY = endVertex.y - startVertex.y;
+
+            const paddleStart: Vector = {
+                x: deltaX * (paddlePostion - (this.paddleLength / 2)) + startVertex.x,
+                y: deltaY * (paddlePostion - (this.paddleLength / 2)) + startVertex.y
+            }
+
+            const paddleEnd: Vector = {
+                x: deltaX * (paddlePostion + (this.paddleLength / 2)) + startVertex.x,
+                y: deltaY * (paddlePostion + (this.paddleLength / 2)) + startVertex.y
+            }
+
+            this.drawLine(paddleStart, paddleEnd);
         }
     }
-    public drawPaddle(paddlePosition: number) {
-        
-    }
-
-    public drawShape(numberOfSides: number)
+    public setVertices(numberOfSides: number): void
     {
-        let vertices: Vector[] = [];
         let n: number;
         let i: number;
         const radius = this.canvasSize / 2;
-
+        this.vertices = [];
         for (n = 0; n < numberOfSides; n++)
         {
             let vertex: Vector = {
-                x: radius * Math.cos(2 * Math.PI * n / numberOfSides) + radius,
-                y: radius * Math.sin(2 * Math.PI * n / numberOfSides) + radius
+                x: radius * Math.sin(2 * Math.PI * (-1 * n / numberOfSides) + Math.PI + (Math.PI / numberOfSides)) + radius,
+                y: radius * Math.cos(2 * Math.PI * (-1 * n / numberOfSides) + Math.PI + (Math.PI / numberOfSides)) + radius
             }
-            vertices.push(vertex);
-        }
 
+            this.vertices.push(vertex);
+        }
+    }
+
+    public drawShape(numberOfSides: number) : void
+    {
+        let i: number;
+        const radius = this.canvasSize / 2;
+        this.setVertices(numberOfSides);
+
+        this.ctx.strokeStyle = "red";
         for (i = 0; i < numberOfSides - 1; i++)
         {
-            this.drawLine(vertices[i], vertices[i+1])
+            this.drawLine(this.vertices[i], this.vertices[i+1])
         }
 
-        this.drawLine(vertices[numberOfSides - 1], vertices[0]);
+        this.drawLine(this.vertices[numberOfSides - 1], this.vertices[0]);
+        this.ctx.strokeStyle = "black";
+
     }
 
     public drawBall(position: Vector)
