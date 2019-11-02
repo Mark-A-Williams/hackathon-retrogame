@@ -20,6 +20,7 @@ namespace Web
         {
             services.AddSingleton<IGroupStore, GroupStore>();
             services.AddSignalR();
+            services.AddSingleton<GameCodeService>();
             services.AddHostedService<GameEngineService>();
         }
 
