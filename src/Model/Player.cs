@@ -1,3 +1,5 @@
+using System;
+
 namespace Model
 {
     public class Player
@@ -11,6 +13,14 @@ namespace Model
             Index = index;
             Color = color;
             Position = position;
+        }
+
+        public Vector GetCentreCoordsFromPlayerIndex(int index)
+        {
+            // var N = GameState.Players
+            // var xPos = Math.Cos(Math.PI/)
+            var centreCoord = new Vector(0,0);
+            return centreCoord
         }
     }
 }
