@@ -9,17 +9,18 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+steps:
 - task: Npm@1
   inputs:
     command: 'ci'
     workingDir: 'src/Web.UI'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'src/Web.UI'
     customCommand: 'run release'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
