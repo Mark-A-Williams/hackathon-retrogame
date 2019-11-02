@@ -1,21 +1,18 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Linq;
 
 namespace Model
 {
-    public class GameEngine
+    public class GameEngine : IDisposable
     {
-        private readonly int _tickDelay;
         private readonly ReaderWriterLockSlim _moveLock = new ReaderWriterLockSlim();
         private readonly ConcurrentQueue<Move> _moves = new ConcurrentQueue<Move>();
+        private bool _disposed = false;
 
-        public GameEngine(int tickDelay)
+        public GameEngine()
         {
-            _tickDelay = tickDelay;
-
             State = new GameState(
                 new Ball(0, 0, Vector.Zero),
                 Enumerable.Empty<Player>()
@@ -24,16 +21,45 @@ namespace Model
 
         public GameState State { get; private set; }
 
-        public async Task Run(CancellationToken ct)
+        public void Dispose()
         {
-            while (true)
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+
+        public AddPlayerResult AddPlayer(string name)
+        {
+            _moveLock.EnterWriteLock();
+
+            Player player;
+
+            try
             {
-                var delay = Task.Delay(_tickDelay);
+                player = new Player(
+                    Guid.NewGuid(),
+                    State.Players.Count,
+                    name,
+                    "#FF00FF",
+                    0.5
+                );
 
-                Tick();
-
-                await delay;
+                State = new GameState(
+                    State.Ball,
+                    Enumerable.Concat(
+                        State.Players,
+                        Enumerable.Repeat(player, 1)
+                    )
+                );
             }
+            finally
+            {
+                _moveLock.ExitWriteLock();
+            }
+
+            return new AddPlayerResult(
+                player.Id,
+                player.Color
+            );
         }
 
         public void MovePlayer(Guid playerId, float position)
@@ -52,7 +78,7 @@ namespace Model
             }
         }
 
-        private void Tick()
+        public void Tick()
         {
             _moveLock.EnterWriteLock();
 
@@ -65,6 +91,22 @@ namespace Model
             finally
             {
                 _moveLock.ExitWriteLock();
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _moveLock.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                State = null;
+                _disposed = true;
             }
         }
     }

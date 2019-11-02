@@ -8,6 +8,7 @@ namespace Model
             => new Player(
                 player.Id,
                 player.Index,
+                player.Name,
                 player.Color,
                 position
             );
