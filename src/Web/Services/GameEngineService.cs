@@ -51,6 +51,9 @@ namespace Web.Services
         public GameState GetGameState(string gameCode)
             => GetGameEngine(gameCode).State;
 
+        public void MovePlayer(string gameCode, Guid playerId, float position)
+            => GetGameEngine(gameCode).MovePlayer(playerId, position);
+
         private GameEngine GetGameEngine(string code)
         {
             if (!_games.TryGetValue(code, out GameEngine game))

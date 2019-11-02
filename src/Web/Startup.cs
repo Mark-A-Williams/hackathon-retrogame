@@ -19,6 +19,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IGroupStore, GroupStore>();
+            services.AddSingleton<IPlayerStore, PlayerStore>();
             services.AddSignalR();
             services.AddSingleton<GameCodeService>();
             services.AddHostedService<GameEngineService>();
