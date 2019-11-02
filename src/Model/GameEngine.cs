@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@ namespace Model
             _tickDelay = tickDelay;
         }
 
+        public object Model { get; private set; }
+
         public async Task Run(CancellationToken ct)
         {
             while (true)
@@ -23,9 +26,13 @@ namespace Model
             }
         }
 
+        public void MovePlayer(Guid playerId, float position) {
+        }
+
         private async Task Tick()
         {
-            // TODO update game model.
+            var updater = new ModelUpdater(Model);
+            Model = updater.GetUpdatedModel();
         }
     }
 }
