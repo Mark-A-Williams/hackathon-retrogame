@@ -10,6 +10,7 @@ export namespace Connection
         private readonly OnPlayerJoinedName: string = "onPlayerJoined";
         private readonly OnGameStateUpdateName: string = "onGameStateUpdate";
         private readonly OnGameStartName: string = "onGameStart";
+        private readonly OnColourSetName: string = "onColourSet";
 
         // Server methods
         private readonly CreateNewGameName: string = "CreateNewGame";
@@ -25,6 +26,7 @@ export namespace Connection
         private readonly _onPlayerJoinedCallbacks: {(userName: string) : void }[] = [];
         private readonly _onGameStateUpdateCallbacks: {(gameState: GameState) : void }[] = [];
         private readonly _onGameStartCallbacks: {() : void}[] = [];
+        private readonly _onColourSetCallbacks: {(colour: string) : void}[] = [];
 
         public constructor() {
             this._connection = new signalR.HubConnectionBuilder()
@@ -36,6 +38,7 @@ export namespace Connection
             this._connection.on(this.OnPlayerJoinedName, (userName: string) => this._onPlayerJoinedCallbacks.forEach((f) => f(userName)));
             this._connection.on(this.OnGameStateUpdateName, (gameState: GameState) => this._onGameStateUpdateCallbacks.forEach((f) => f(gameState)));
             this._connection.on(this.OnGameStartName, () => this._onGameStartCallbacks.forEach(f => f()));
+            this._connection.on(this.OnColourSetName, (colour: string) => this._onColourSetCallbacks.forEach(f => f(colour)));
 
             this._connection.start().catch(err => console.log(err));
         }
@@ -50,6 +53,10 @@ export namespace Connection
 
         set onGameStateUpdate(value: {(gameState: GameState) : void}) {
             this._onGameStateUpdateCallbacks.push(value);
+        }
+
+        set onColourSet(value: {(colour: string) : void }) {
+            this._onColourSetCallbacks.push(value);
         }
 
         public CreateGame(): void {

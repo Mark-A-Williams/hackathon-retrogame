@@ -24,6 +24,7 @@ menuHandler.onJoinGameSubmit = (code, username) => {
   gameCode = code;
   connection.JoinGame(username, gameCode);
   paddleHandler.onPaddleMove = (position) => connection.UpdatePosition(gameCode, position);
+  connection.onColourSet = (colour) => paddleHandler.setColour(colour);
   renderer.showPaddle();
 };
 
