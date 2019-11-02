@@ -49,6 +49,9 @@ namespace Web.Services
             return new AddGameResult(code);
         }
 
+        public void StartGame(string gameCode)
+            => GetGameEngine(gameCode).Start();
+
         public AddPlayerResult AddPlayer(string gameCode, string name)
             => GetGameEngine(gameCode).AddPlayer(name);
 

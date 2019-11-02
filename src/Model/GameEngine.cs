@@ -10,6 +10,7 @@ namespace Model
         private readonly ReaderWriterLockSlim _moveLock = new ReaderWriterLockSlim();
         private readonly ConcurrentQueue<Move> _moves = new ConcurrentQueue<Move>();
         private bool _disposed = false;
+        private Random _random;
 
         public GameEngine()
         {
@@ -17,9 +18,13 @@ namespace Model
                 new Ball(Vector.Zero, Vector.Zero),
                 Enumerable.Empty<Player>()
             );
+
+            _random = new Random();
         }
 
         public GameState State { get; private set; }
+
+        public bool HasStarted { get; private set; }
 
         public bool IsActive { get; }
 
@@ -27,6 +32,32 @@ namespace Model
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
+        }
+
+        public void Start()
+        {
+            if (!CanStart())
+            {
+                return;
+            }
+
+            // Flick
+            var randomx = (_random.NextDouble() * 2) + 1;
+            var randomy = (_random.NextDouble() * 2) + 1;
+
+            var ball = new Ball(Vector.Zero, new Vector(randomx, randomy));
+
+            State = new GameState(
+                ball,
+                State.Players
+            );
+
+            HasStarted = true;
+        }
+
+        public bool CanStart()
+        {
+            return !HasStarted && State.Players.Count >= 2;
         }
 
         public AddPlayerResult AddPlayer(string name)

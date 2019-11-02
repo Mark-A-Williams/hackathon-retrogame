@@ -84,7 +84,7 @@ namespace Web.Hubs
                 return;
             }
 
-            // Kick off game engine here?
+            _gameEngineService.StartGame(gameId);
 
             await Clients.Group(gameId).SendAsync(ClientMethods.OnGameStart);
         }
