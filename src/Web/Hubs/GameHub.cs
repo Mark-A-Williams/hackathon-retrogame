@@ -36,6 +36,8 @@ namespace Web.Hubs
                 return;
             }
 
+            var addResult = _gameEngineService.AddPlayer(gameId, userName);
+
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             await Clients.Client(_groupStore.GetGroupHost(gameId)).SendAsync(ClientMethods.OnPlayerJoined, userName);
         }
