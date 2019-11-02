@@ -61,6 +61,9 @@ namespace Web.Services
         public void MovePlayer(string gameCode, Guid playerId, float position)
             => GetGameEngine(gameCode).MovePlayer(playerId, position);
 
+        public bool CanJoinGame(string gameCode)
+            => !GetGameEngine(gameCode).HasStarted;
+
         private GameEngine GetGameEngine(string code)
         {
             if (!_games.TryGetValue(code, out GameEngine game))

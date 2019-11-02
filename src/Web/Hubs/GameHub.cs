@@ -39,6 +39,11 @@ namespace Web.Hubs
                 throw new ArgumentException($"There is no game '{gameId}'.");
             }
 
+            if (!_gameEngineService.CanJoinGame(gameId))
+            {
+                throw new InvalidOperationException($"Game {gameId} has already started.");
+            }
+
             var addResult = _gameEngineService.AddPlayer(gameId, userName);
             var player = new PlayerDetails
             {

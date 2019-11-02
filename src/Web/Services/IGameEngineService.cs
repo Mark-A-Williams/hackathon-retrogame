@@ -12,5 +12,6 @@ namespace Web.Services
         AddPlayerResult AddPlayer(string gameCode, string name);
         GameState GetGameState(string gameCode);
         void MovePlayer(string gameCode, Guid playerId, float position);
+        bool CanJoinGame(string gameCode);
     }
 }
