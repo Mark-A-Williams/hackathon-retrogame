@@ -24,9 +24,10 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
+    packagesDirectory: '$(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: 'src/Web/bin/Debug/netcoreapp3.0/publish/'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
