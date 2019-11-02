@@ -31,4 +31,6 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+    publishWebProjects: false
+    modifyOutputPath: true
     zipAfterPublish: false
