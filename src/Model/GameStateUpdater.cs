@@ -88,8 +88,8 @@ namespace Model
 
         public static bool DidBallMoveIntersectPlayerPaddle(Vector oldBall, Vector newBall, Player player)
         {
-            var paddleStart = player.PaddleEndCoords[0];
-            var paddleEnd = player.PaddleEndCoords[1]; // yeah it's a bit rubbish
+            var paddleStart = player.GetPaddleStartCoords();
+            var paddleEnd = player.GetPaddleEndCoords();
             return LinesIntersect(
                     paddleStart, paddleEnd, oldBall, newBall
                 );
