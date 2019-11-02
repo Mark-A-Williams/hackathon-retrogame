@@ -25,9 +25,10 @@ steps:
   inputs:
     command: 'publish'
     arguments: '--output $(Build.ArtifactStagingDirectory)'
-    publishWebProjects: false
-    modifyOutputPath: true
-    zipAfterPublish: false
+
+- task: CmdLine@2
+  inputs:
+    script: 'echo ''Web.zip'' >> $(Build.ArtifactStagingDirectory)/packagename.txt'
 
 - task: PublishBuildArtifacts@1
   inputs:
