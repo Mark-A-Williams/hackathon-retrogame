@@ -58,3 +58,30 @@ body {
     rgba(64, 1, 15, 1) 100%
   );
 }
+
+.controller-container {
+    height: 300px;
+}
+
+.touch-control {
+    height: 100%;
+}
+
+.touch-slider {
+  width: calc(100% - 40px);
+  margin: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 100%;
+  background: #d3d3d3;
+  outline: none;
+}
+
+.touch-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 300px; /* Slider handle height */
+  background: #4caf50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
