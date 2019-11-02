@@ -18,5 +18,5 @@ export class Vector {
 export class Player {
     index: number;
     color: string;
-    paddlePosition: number;
+    position: number;
 }

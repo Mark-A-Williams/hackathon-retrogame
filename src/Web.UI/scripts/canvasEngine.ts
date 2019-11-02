@@ -61,7 +61,7 @@ export class CanvasEngine {
       const player: Player = {
         index: i,
         color: '#000',
-        paddlePosition: Math.random()
+        position: Math.random()
       };
 
       players.push(player);
@@ -80,7 +80,7 @@ export class CanvasEngine {
       let startVertex: Vector;
       let endVertex: Vector;
       let paddlePostion =
-        players[i].paddlePosition * (1 - this.paddleLength) +
+        players[i].position * (1 - this.paddleLength) +
         this.paddleLength / 2;
 
       if (i !== players.length - 1) {
@@ -153,7 +153,11 @@ export class CanvasEngine {
     this.setVertices(numberOfSides);
 
     for (i = 0; i < numberOfSides - 1; i++) {
+      this.ctx.strokeStyle = "#ffffff"
+      this.ctx.fillStyle = "#ffffff"
       this.drawCircle(this.vertices[i], 3)
+      this.ctx.strokeStyle = "#000000"
+      this.ctx.fillStyle = "#000000"
     }
 
   }
