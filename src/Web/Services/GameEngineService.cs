@@ -9,11 +9,11 @@ using Web.Models;
 
 namespace Web.Services
 {
-    public class GameEngineService : BackgroundService
+    public class GameEngineService : BackgroundService, IGameEngineService
     {
-        private readonly GameCodeService _codeService;
+        private readonly IGameCodeService _codeService;
 
-        public GameEngineService(GameCodeService codeService)
+        public GameEngineService(IGameCodeService codeService)
         {
             _codeService = codeService;
         }

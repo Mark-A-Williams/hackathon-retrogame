@@ -9,12 +9,12 @@ namespace Web.Hubs
     {
         private readonly IGroupStore _groupStore;
         private readonly IPlayerStore _playerStore;
-        private readonly GameEngineService _gameEngineService;
+        private readonly IGameEngineService _gameEngineService;
 
         public GameHub(
             IGroupStore groupStore,
             IPlayerStore playerStore,
-            GameEngineService gameEngineService)
+            IGameEngineService gameEngineService)
         {
             _groupStore = groupStore ?? throw new ArgumentNullException(nameof(groupStore));
             _playerStore = playerStore ?? throw new ArgumentNullException(nameof(playerStore));

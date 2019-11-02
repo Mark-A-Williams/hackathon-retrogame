@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,8 +18,9 @@ namespace Web
             services.AddSingleton<IGroupStore, GroupStore>();
             services.AddSingleton<IPlayerStore, PlayerStore>();
             services.AddSignalR();
-            services.AddSingleton<GameCodeService>();
-            services.AddHostedService<GameEngineService>();
+            services.AddSingleton<IGameCodeService, GameCodeService>();
+            services.AddSingleton<IGameEngineService, GameEngineService>();
+            services.AddHostedService<IGameEngineService>((sc) => sc.GetRequiredService<IGameEngineService>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

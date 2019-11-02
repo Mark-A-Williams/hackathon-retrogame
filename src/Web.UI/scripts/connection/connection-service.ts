@@ -1,4 +1,4 @@
-import * as signalR from '@aspnet/signalr';
+import * as signalR from '@microsoft/signalr';
 import { GameState } from '../models';
 
 export namespace Connection
@@ -29,6 +29,7 @@ export namespace Connection
         public constructor() {
             this._connection = new signalR.HubConnectionBuilder()
                 .withUrl('/hub')
+                .withAutomaticReconnect()
                 .build();
 
             this._connection.on(this.OnCodeSetName, (code: string) => this._onCodeSetCallbacks.forEach((f) => f(code)));

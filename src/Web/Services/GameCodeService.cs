@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Web.Services
 {
-    public class GameCodeService
+    public class GameCodeService : IGameCodeService
     {
         private const int Length = 4;
         private readonly Random _random = new Random();
