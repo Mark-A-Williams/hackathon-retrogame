@@ -14,7 +14,7 @@ namespace Model
         public GameEngine()
         {
             State = new GameState(
-                new Ball(0, 0, Vector.Zero),
+                new Ball(Vector.Zero, Vector.Zero),
                 Enumerable.Empty<Player>()
             );
         }
@@ -86,6 +86,7 @@ namespace Model
             {
                 State = State
                     .ApplyMoves(_moves)
+                    .MoveBall()
                     .ApplyCollisionDetection();
             }
             finally

@@ -25,6 +25,16 @@ namespace Model
             );
         }
 
+        public static GameState MoveBall(this GameState gameState)
+        {
+            // previousBall = gameState.Ball;
+            // return new GameState(
+            //     thing,
+            //     players.Values.OrderBy(o => o.Index)
+            // );
+            return gameState;
+        }
+
         public static GameState ApplyCollisionDetection(this GameState gameState)
         {
             return gameState;
