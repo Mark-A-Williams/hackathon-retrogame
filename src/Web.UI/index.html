@@ -5,27 +5,21 @@
     <title>ASP.NET Core SignalR</title>
 </head>
 <body>
-    <div id="menu-view" class="view"></div>
-    <div id="paddle-view" class="view"></div>
-    <div id="game-view" class="view"></div>
-    <div class="game-container" id="game">
+    <div id="menu-view" class="view">
+        <button id="newGameButton">Create a game</button>
+        <h4>Join a game</h4>
+        <form id="joinGameForm">
+            <input id="gameCodeInput" type="text" placeholder="Game code" />
+            <input id="userNameInput" type="text" placeholder="Username" />
+            <button type="submit">Join</button>
+        </form>
+    </div>
+    <div id="paddle-view" class="view">
+        <input id="paddle" type="range" min="0" max="1" value="0.5" class="touch-slider" step="0.01">
+    </div>
+    <div id="game-view" class="view">
         <canvas id="canvas" class="canvas"></canvas>
         <button class="frame-button" id="frameButton">Draw Frame</button>
-    </div>
-    <div id="signalr-test">
-        <button id="create-game-button">Create a new game!</button>
-        <h4>Game code</h4>
-        <p id="created-game-code"></p>
-        <h4>Joined players</h4>
-        <ul id="joined-players"></ul>
-        <input id="username-input" type="text" placeholder="Enter your name" />
-        <input id="game-code-input" type="text" placeholder="Enter the game code" />
-        <button id="join-game-button">Or join a game</button>
-    </div>
-    <div class="controller-container" id="container">
-        <div id="touch-control" class="touch-control">
-            <input type="range" min="0" max="1" value="0.5" class="touch-slider" id="touch-slider" step="0.01">
-        </div>
     </div>
 </body>
 </html>

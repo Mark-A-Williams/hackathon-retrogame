@@ -14,6 +14,7 @@ export class Renderer {
     public showMenu(): void {
         if (!this.initialised) {
             window.addEventListener("load", () => this.showMenu());
+            return;
         }
 
         this.show(this.menuView);
@@ -24,6 +25,7 @@ export class Renderer {
     public showPaddle(): void {
         if (!this.initialised) {
             window.addEventListener("load", () => this.showPaddle());
+            return;
         }
 
         this.hide(this.menuView);
@@ -34,6 +36,7 @@ export class Renderer {
     public showGame(): void {
         if (!this.initialised) {
             window.addEventListener("load", () => this.showGame());
+            return;
         }
 
         this.hide(this.menuView);

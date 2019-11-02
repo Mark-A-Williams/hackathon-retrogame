@@ -22,7 +22,9 @@ export class MenuHandler {
             this._newGameCallbacks.forEach(f => f());
         });
 
-        this.joinGameForm.addEventListener('submit', () => {
+        this.joinGameForm.addEventListener('submit', (e: Event) => {
+            e.preventDefault();
+            
             const userName = this.userNameInput.value;
             const gameCode = this.gameCodeInput.value;
 
