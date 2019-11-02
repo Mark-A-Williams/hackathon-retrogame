@@ -54,4 +54,8 @@ export class MenuHandler {
     set onStartGameClick(value: {() : void}) {
         this._startGameCallbacks.push(value);
     }
+
+    hideStartGameButton():void {
+        this.startGameButton.style.display = 'none';
+    }
 }

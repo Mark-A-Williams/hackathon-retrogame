@@ -85,6 +85,12 @@ namespace Web.Hubs
                 return;
             }
 
+            var gameState = _gameEngineService.GetGameState(gameId);
+            if (gameState.Players.Count < 2)
+            {
+                throw new InvalidOperationException();
+            }
+
             _gameEngineService.StartGame(gameId);
 
             await Clients.Group(gameId).SendAsync(ClientMethods.OnGameStart);

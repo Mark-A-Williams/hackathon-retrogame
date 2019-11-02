@@ -9,17 +9,11 @@ import { PaddleHandler } from './paddle-handler';
 import { GameLoop } from './game-loop';
 
 let gameCode = '';
-const btnFrame: HTMLButtonElement = document.querySelector('#frameButton');
 const canvasEngine = new CanvasEngine();
 const renderer = new Renderer();
 const menuHandler = new MenuHandler();
 const paddleHandler = new PaddleHandler();
 const connection = new Connection.ConnectionService();
-
-btnFrame.addEventListener('click', () => {
-    const gameState = canvasEngine.createMockGamestate(5);
-    canvasEngine.drawFrame(gameState);
-});
 
 menuHandler.onJoinGameSubmit = (code, username) => {
     gameCode = code;
@@ -42,7 +36,10 @@ menuHandler.onNewGameClicked = () => {
         renderer.showGame();
 
         menuHandler.onStartGameClick = () => {
-            connection.StartGame(gameCode);
+            connection.StartGame(gameCode)
+                .then(() => {
+                    menuHandler.hideStartGameButton();
+                })
         }
     };
 };
