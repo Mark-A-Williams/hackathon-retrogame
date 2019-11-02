@@ -1,17 +1,18 @@
 using System;
+using System.Threading.Tasks;
 
 namespace Model
 {
-    internal class ModelUpdater
+    internal class GameStateUpdater
     {
         private readonly GameState _original;
 
-        public ModelUpdater(GameState model)
+        public GameStateUpdater(GameState model)
         {
             _original = model;
         }
 
-        public GameState GetUpdatedModel()
+        public async Task<GameState> GetUpdatedGameState()
         {
             throw new NotImplementedException();
         }

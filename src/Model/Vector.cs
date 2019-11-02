@@ -10,5 +10,7 @@ namespace Model
             X = x;
             Y = y;
         }
+
+        public static Vector Zero => new Vector(0, 0);
     }
 }

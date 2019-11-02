@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Model
 {
@@ -14,9 +15,14 @@ namespace Model
         public GameEngine(int tickDelay)
         {
             _tickDelay = tickDelay;
+
+            State = new GameState(
+                new Ball(0, 0, Vector.Zero),
+                Enumerable.Empty<Player>()
+            );
         }
 
-        public GameState Model { get; private set; }
+        public GameState State { get; private set; }
 
         public async Task Run(CancellationToken ct)
         {
@@ -51,8 +57,8 @@ namespace Model
 
             try
             {
-                var updater = new ModelUpdater(Model);
-                Model = updater.GetUpdatedModel();
+                var updater = new GameStateUpdater(State);
+                State = await updater.GetUpdatedGameState();
             }
             finally
             {
