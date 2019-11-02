@@ -20,3 +20,7 @@ export class Player {
     color: string;
     position: number;
 }
+
+export interface AddPlayerResult {
+    
+}

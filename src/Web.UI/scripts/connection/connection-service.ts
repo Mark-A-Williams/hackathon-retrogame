@@ -63,8 +63,8 @@ export namespace Connection
             this._connection.invoke(this.CreateNewGameName);
         }
 
-        public JoinGame(userName: string, gameCode: string): void {
-            this._connection.invoke(this.JoinGameName, gameCode, userName);
+        public JoinGame(userName: string, gameCode: string): Promise<void> {
+            return this._connection.invoke(this.JoinGameName, gameCode, userName);
         }
 
         public RequestGameState(gameCode: string): Promise<void>  {

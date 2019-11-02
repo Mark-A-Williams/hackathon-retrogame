@@ -36,7 +36,7 @@ namespace Web.Hubs
         {
             if (!_groupStore.GroupExists(gameId))
             {
-                return;
+                throw new ArgumentException($"There is no game '{gameId}'.");
             }
 
             var addResult = _gameEngineService.AddPlayer(gameId, userName);

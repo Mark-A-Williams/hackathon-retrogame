@@ -16,22 +16,25 @@ const paddleHandler = new PaddleHandler();
 const connection = new Connection.ConnectionService();
 
 menuHandler.onJoinGameSubmit = (code, username) => {
-    gameCode = code;
-    connection.JoinGame(username, gameCode);
-    paddleHandler.onPaddleMove = (position) => connection.UpdatePosition(gameCode, position);
-    connection.onColourSet = (colour) => paddleHandler.setColour(colour);
-    renderer.showPaddle();
+    connection.onColourSet = (colour) => {
+        gameCode = code;
+        paddleHandler.setColour(colour);
+        paddleHandler.onPaddleMove = (position) => connection.UpdatePosition(gameCode, position);
+        renderer.showPaddle();
+    };
+    
+    connection.JoinGame(username, code)
 };
 
 menuHandler.onNewGameClicked = () => {
-    connection.CreateGame();
     connection.onCodeSet = (code) => {
         gameCode = code;
         const looper = new GameLoop(code, connection);
         looper.start();
-        connection.onGameStateUpdate = (state) => { 
+        connection.onGameStateUpdate = (state) => {
             console.log(state);
-            canvasEngine.drawFrame(state); }
+            canvasEngine.drawFrame(state);
+        }
         renderer.renderGameCode(gameCode);
         renderer.showGame();
 
@@ -42,6 +45,8 @@ menuHandler.onNewGameClicked = () => {
                 })
         }
     };
+
+    connection.CreateGame();
 };
 
 renderer.showMenu();
