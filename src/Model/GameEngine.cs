@@ -72,7 +72,7 @@ namespace Model
                     Guid.NewGuid(),
                     State.Players.Count,
                     name,
-                    "#FF00FF",
+                    Colours.GetColour(State.Players.Count),
                     0.5
                 );
 

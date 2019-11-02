@@ -9,6 +9,7 @@ export class CanvasEngine {
   sideLength: number;
   paddleLength: number = 0.3;
   vertices: Vector[];
+  ballColour = "#f300c0";
   colours: string[] = ['#000000', '#FF0000', '#00FF00', '#0000FF', "#800000", "#FFFF00", "#00FFFF", "#F0F0F0", "#101010"];
   public drawFrame(gameState: GameState) {
     const canvas: HTMLCanvasElement = document.getElementById(
@@ -157,8 +158,8 @@ export class CanvasEngine {
   }
 
   public drawBall(position: Vector) {
-    this.ctx.strokeStyle = "#f300c0";
-    this.ctx.fillStyle = "#f300c0";
+    this.ctx.strokeStyle = this.ballColour;
+    this.ctx.fillStyle = this.ballColour;
     this.drawCircle(position);
     this.ctx.strokeStyle = "black";
 
