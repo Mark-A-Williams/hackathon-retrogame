@@ -5,16 +5,19 @@
     <title>ASP.NET Core SignalR</title>
 </head>
 <body>
-    <div id="divMessages" class="messages">
-    </div>
-    <div class="input-zone">
-        <label id="lblMessage" for="tbMessage">Message:</label>
-        <input id="tbMessage" class="input-zone-input" type="text" />
-        <button id="btnSend">Send</button>
-    </div>
     <div id="game">
         <canvas id="canvas" class="canvas"></canvas>
         <button class="frame-button" id="frameButton">Draw Frame</button>
+    </div>
+    <div id="signalr-test">
+        <button id="create-game-button">Create a new game!</button>
+        <h4>Game code</h4>
+        <p id="created-game-code"></p>
+        <h4>Joined players</h4>
+        <ul id="joined-players"></ul>
+        <input id="username-input" type="text" placeholder="Enter your name" />
+        <input id="game-code-input" type="text" placeholder="Enter the game code" />
+        <button id="join-game-button">Or join a game</button>
     </div>
 </body>
 </html>
