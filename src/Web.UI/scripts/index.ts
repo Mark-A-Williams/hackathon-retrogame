@@ -30,4 +30,7 @@ connection.onPlayerJoined = (userName: string) => {
 createGameBtn.addEventListener("click", () => connection.CreateGame());
 joinGameBtn.addEventListener("click", () => connection.JoinGame(usernameInput.value, gameCodeInput.value));
 
-btnFrame.addEventListener("click", () => canvasEngine.drawFrame(null));
+btnFrame.addEventListener('click', () => {
+  const gameState = canvasEngine.createMockGamestate(8);
+  canvasEngine.drawFrame(gameState);
+});
