@@ -1,15 +1,14 @@
-using System;
-
 namespace Model
 {
     public class Vector
     {
-        public float x { get; set; }
-        public float y { get; set; }
+        public float X { get; }
+        public float Y { get; }
+
         public Vector(float x, float y)
         {
-            this.x = x;
-            this.y = y;    
+            X = x;
+            Y = y;
         }
     }
 }

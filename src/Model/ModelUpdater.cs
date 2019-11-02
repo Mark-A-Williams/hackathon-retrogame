@@ -1,17 +1,19 @@
+using System;
+
 namespace Model
 {
     internal class ModelUpdater
     {
-        private readonly object _original;
+        private readonly GameState _original;
 
-        public ModelUpdater(object model)
+        public ModelUpdater(GameState model)
         {
             _original = model;
         }
 
-        public object GetUpdatedModel()
+        public GameState GetUpdatedModel()
         {
-            return new object();
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Model
             _tickDelay = tickDelay;
         }
 
-        public object Model { get; private set; }
+        public GameState Model { get; private set; }
 
         public async Task Run(CancellationToken ct)
         {
