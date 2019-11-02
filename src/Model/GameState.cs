@@ -13,8 +13,10 @@ namespace Model
         {
             Ball = ball;
             Players = ImmutableList.CreateRange(players);
+            TickTimestamp = DateTimeOffset.Now;
         }
 
+        public DateTimeOffset TickTimestamp { get; }
         public Ball Ball { get; }
         public ImmutableList<Player> Players { get; }
     }

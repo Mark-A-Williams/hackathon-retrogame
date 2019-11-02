@@ -27,12 +27,20 @@ namespace Model
 
         public static GameState MoveBall(this GameState gameState)
         {
-            // previousBall = gameState.Ball;
-            // return new GameState(
-            //     thing,
-            //     players.Values.OrderBy(o => o.Index)
-            // );
-            return gameState;
+            var previousBall = gameState.Ball;
+
+            var elapsedTime = DateTimeOffset.Now - gameState.TickTimestamp;
+            
+            var newPosition = previousBall.Position.Add(
+                previousBall.Velocity.ScalarMultiply(elapsedTime.TotalSeconds)
+            );
+
+            var newBall = new Ball(newPosition, previousBall.Velocity);
+
+            return new GameState(
+                newBall,
+                gameState.Players
+            );
         }
 
         public static GameState ApplyCollisionDetection(this GameState gameState)
