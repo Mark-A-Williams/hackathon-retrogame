@@ -28,6 +28,10 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+wwwroot/
 
 # Visual Studio 2015
 .vs/
+
+# npm
+node_modules
