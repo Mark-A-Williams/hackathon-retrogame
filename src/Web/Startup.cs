@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Hubs;
+using Web.Services;
 
 namespace Web
 {
@@ -17,8 +18,8 @@ namespace Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IGroupStore, GroupStore>();
             services.AddSignalR();
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,7 +37,6 @@ namespace Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<GameHub>("/hub");
-                endpoints.MapControllers();
             });
         }
     }
