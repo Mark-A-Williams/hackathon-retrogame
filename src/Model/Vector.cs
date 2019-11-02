@@ -2,10 +2,10 @@ namespace Model
 {
     public class Vector
     {
-        public float X { get; }
-        public float Y { get; }
+        public double X { get; }
+        public double Y { get; }
 
-        public Vector(float x, float y)
+        public Vector(double x, double y)
         {
             X = x;
             Y = y;

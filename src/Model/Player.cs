@@ -15,12 +15,14 @@ namespace Model
             Position = position;
         }
 
-        public Vector GetCentreCoordsFromPlayerIndex(int index)
+        public Vector GetCentreCoordsFromPlayerIndex(int index, int numPlayers)
         {
-            // var N = GameState.Players
-            // var xPos = Math.Cos(Math.PI/)
-            var centreCoord = new Vector(0,0);
-            return centreCoord
+            var theta_n = 2*Math.PI*index/numPlayers;
+            var phi = Math.Cos(Math.PI/numPlayers);
+            var xPos = phi*Math.Cos(theta_n);
+            var yPos = phi*Math.Sin(theta_n); 
+            var centreCoord = new Vector(xPos, yPos);
+            return centreCoord;
         }
     }
 }

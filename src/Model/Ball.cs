@@ -2,15 +2,15 @@ namespace Model
 {
     public class Ball
     {
-        public Ball(float x, float y, Vector velocity)
+        public Ball(double x, double y, Vector velocity)
         {
             XPosition = x;
             YPosition = y;
             Velocity = velocity;
         }
 
-        public float XPosition { get; }
-        public float YPosition { get; }
+        public double XPosition { get; }
+        public double YPosition { get; }
         public Vector Velocity { get; }
     }
 }
