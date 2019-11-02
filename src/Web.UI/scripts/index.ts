@@ -33,6 +33,6 @@ createGameBtn.addEventListener("click", () => connection.CreateGame());
 joinGameBtn.addEventListener("click", () => connection.JoinGame(usernameInput.value, gameCodeInput.value));
 
 btnFrame.addEventListener('click', () => {
-  const gameState = canvasEngine.createMockGamestate(8);
+  const gameState = canvasEngine.createMockGamestate(5);
   canvasEngine.drawFrame(gameState);
 });
