@@ -8,7 +8,7 @@ using Web.Models;
 
 namespace Web.Services
 {
-    internal class GameEngineService : BackgroundService
+    public class GameEngineService : BackgroundService
     {
         private readonly GameCodeService _codeService;
 
