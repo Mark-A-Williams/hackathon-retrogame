@@ -5,20 +5,20 @@ namespace Model
 {
     public class Player
     {
+        public Guid Id { get; }
         public int Index { get; }
         public string Color { get; }
-        public float Position { get; } // position of centre of paddle from 0 to 1
         public PlayerArea PlayerArea { get; set; }
         public List<Vector> PaddleEndCoords {get; set; }
+        public double Position { get; } // position of centre of paddle from 0 to 1
 
-        public Player(int index, string color, float position)
+        public Player(Guid id, int index, string color, double position)
         {
+            Id = id;
             Index = index;
             Color = color;
             Position = position;
             PlayerArea = new PlayerArea(index);
         }
-
-        
     }
 }

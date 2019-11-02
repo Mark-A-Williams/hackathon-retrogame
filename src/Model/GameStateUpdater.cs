@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Concurrent;
 
 namespace Model
@@ -7,7 +8,21 @@ namespace Model
     {
         public static GameState ApplyMoves(this GameState gameState, ConcurrentQueue<Move> moves)
         {
-            return gameState;
+            var players = gameState.Players.ToDictionary(o => o.Id, o => o);
+
+            foreach (var playerId in moves.Select(o => o.PlayerId).Distinct())
+            {
+                if (players.ContainsKey(playerId))
+                {
+                    var lastMove = moves.Last(o => o.PlayerId == playerId);
+                    players[playerId] = players[playerId].WithPosition(lastMove.Position);
+                }
+            }
+
+            return new GameState(
+                gameState.Ball,
+                players.Values.OrderBy(o => o.Index)
+            );
         }
 
         public static GameState ApplyCollisionDetection(this GameState gameState)
