@@ -25,6 +25,7 @@ namespace Model
         public GameState State { get; private set; }
 
         public bool HasStarted { get; private set; }
+        public DateTimeOffset TickTimestamp { get; set; } 
 
         public void Dispose()
         {
@@ -53,6 +54,7 @@ namespace Model
             );
 
             HasStarted = true;
+            TickTimestamp = DateTimeOffset.Now;
         }
 
         public bool CanStart()
@@ -120,11 +122,12 @@ namespace Model
             {
                 State = State
                     .ApplyMoves(_moves)
-                    .MoveBall()
+                    .MoveBall(TickTimestamp)
                     .ApplyCollisionDetection(oldBallPosition);
             }
             finally
             {
+                TickTimestamp = DateTimeOffset.Now;
                 _moveLock.ExitWriteLock();
             }
         }

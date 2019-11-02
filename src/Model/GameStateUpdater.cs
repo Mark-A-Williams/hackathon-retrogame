@@ -25,11 +25,11 @@ namespace Model
             );
         }
 
-        public static GameState MoveBall(this GameState gameState)
+        public static GameState MoveBall(this GameState gameState, DateTimeOffset TickTimestamp)
         {
             var previousBall = gameState.Ball;
 
-            var elapsedTime = DateTimeOffset.Now - gameState.TickTimestamp;
+            var elapsedTime =  DateTimeOffset.Now - TickTimestamp;
             
             var newPosition = previousBall.Position.Add(
                 previousBall.Velocity.ScalarMultiply(elapsedTime.TotalSeconds)
