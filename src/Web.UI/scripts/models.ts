@@ -1,3 +1,4 @@
+
 export class GameState {
     ball: Ball;
     players: Player[];
@@ -17,11 +18,6 @@ export class Vector {
 
 export class Player {
     index: number;
-    color: Color;
+    color: string;
     paddlePosition: number;
-}
-
-export enum Color {
-    red = 0,
-    blue = 1
 }

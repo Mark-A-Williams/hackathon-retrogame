@@ -1,10 +1,14 @@
 import "../styles/main.css";
 import * as signalR from "@aspnet/signalr";
+import { CanvasEngine } from './canvasEngine';
 
 const divMessages: HTMLDivElement = document.querySelector("#divMessages");
 const tbMessage: HTMLInputElement = document.querySelector("#tbMessage");
 const btnSend: HTMLButtonElement = document.querySelector("#btnSend");
+const btnFrame: HTMLButtonElement = document.querySelector("#frameButton");
 const username = new Date().getTime();
+const canvasEngine = new CanvasEngine();
+
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/hub")
@@ -29,7 +33,7 @@ tbMessage.addEventListener("keyup", (e: KeyboardEvent) => {
 });
 
 btnSend.addEventListener("click", send);
-
+btnFrame.addEventListener("click", () => canvasEngine.drawFrame(null));
 function send() {
     connection.send("newMessage", username, tbMessage.value)
               .then(() => tbMessage.value = "");

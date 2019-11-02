@@ -1,7 +1,11 @@
-class CanvasEngine {
+import { Vector, GameState } from './models';
+
+export class CanvasEngine {
     public gameState: GameState;
 
     ctx: CanvasRenderingContext2D;
+    ballRadius: number = 2;
+
 
     public drawFrame(gameState: GameState) {
         const canvas: HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
@@ -11,6 +15,12 @@ class CanvasEngine {
         canvas.width = 400;
         canvas.height = 400;
         this.drawShape(5);
+
+        let position: Vector;
+        position.x = 100 * Math.random()
+        position.y = 100 * Math.random()
+
+        this.drawBall(position);
     }
 
     public drawShape(numberOfSides: number)
@@ -38,6 +48,11 @@ class CanvasEngine {
         this.drawLine(vertices[numberOfSides - 1], vertices[0]);
     }
 
+    public drawBall(position: Vector)
+    {
+        this.drawCircle(position);
+    }
+
     public drawLine(start: Vector, end: Vector)
     {
         this.ctx.beginPath();
@@ -46,37 +61,11 @@ class CanvasEngine {
         this.ctx.stroke();
         this.ctx.closePath();
     }
-}
 
-const init = () => {
-    let canvasEngine = new CanvasEngine;
-    let button = document.getElementById("button").addEventListener("click", () => canvasEngine.drawFrame(null));
-}
-
-class GameState {
-    ball: Ball;
-    players: Player[];
-}
-
-class Ball {
-    xPostion: number;
-    yPosition: number;
-    travel: Vector; 
-}
-
-
-class Vector {
-    x: number;
-    y: number;
-}
-
-class Player {
-    index: number;
-    color: Color;
-    paddlePosition: number;
-}
-
-enum Color {
-    red = 0,
-    blue = 1
+    public drawCircle(position: Vector)
+    {
+        this.ctx.beginPath();
+        this.ctx.moveTo(position.x, position.y);
+        this.ctx.arc(position.x, position.y, this.ballRadius, 0, 2*Math.PI, false);
+    }
 }
