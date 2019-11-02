@@ -6,6 +6,7 @@ export class Renderer {
     private menuView: HTMLDivElement;
     private paddleView: HTMLDivElement;
     private gameView: HTMLDivElement;
+    private gameCodeElement: HTMLSpanElement;
 
     constructor() {
         window.addEventListener("load", () => this.init());
@@ -44,10 +45,21 @@ export class Renderer {
         this.show(this.gameView);
     }
 
+    public renderGameCode(code: string): void {
+        if (!this.initialised) {
+            window.addEventListener('load', () => this.renderGameCode(code));
+            return;
+        }
+
+        this.gameCodeElement.textContent = code;
+    }
+
     private init(): void {
         this.menuView = document.querySelector('#menu-view');
         this.paddleView = document.querySelector('#paddle-view');
         this.gameView = document.querySelector('#game-view');
+
+        this.gameCodeElement = document.querySelector('#gameCode');
 
         this.initialised = true;
     }

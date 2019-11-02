@@ -32,6 +32,7 @@ menuHandler.onNewGameClicked = () => {
   connection.onCodeSet = (code) => {
     gameCode = code;
     connection.onGameStateUpdate = (state) => canvasEngine.drawFrame(state);
+    renderer.renderGameCode(gameCode);
     renderer.showGame();
   };
 };
