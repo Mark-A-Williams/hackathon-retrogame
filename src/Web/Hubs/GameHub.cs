@@ -8,20 +8,25 @@ namespace Web.Hubs
     public class GameHub : Hub
     {
         private readonly IGroupStore _groupStore;
-        public GameHub(IGroupStore groupStore)
+        private readonly GameEngineService _gameEngineService;
+
+        public GameHub(
+            IGroupStore groupStore,
+            GameEngineService gameEngineService)
         {
             _groupStore = groupStore ?? throw new ArgumentNullException(nameof(groupStore));
+            _gameEngineService = gameEngineService ?? throw new ArgumentNullException(nameof(gameEngineService));
         }
 
         public async Task CreateNewGame()
         {
-            // TODO make this code unique
-            var uniqueCode = "ABCDEF";
-            await Groups.AddToGroupAsync(Context.ConnectionId, uniqueCode);
+            var game = _gameEngineService.AddGame();
 
-            _groupStore.AddGroupHost(uniqueCode, Context.ConnectionId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, game.Code);
 
-            await Clients.Caller.SendAsync(ClientMethods.OnCodeSet, uniqueCode);
+            _groupStore.AddGroupHost(game.Code, Context.ConnectionId);
+
+            await Clients.Caller.SendAsync(ClientMethods.OnCodeSet, game.Code);
         }
 
         public async Task JoinGame(string gameId, string userName)
@@ -30,6 +35,8 @@ namespace Web.Hubs
             {
                 return;
             }
+
+            var addResult = _gameEngineService.AddPlayer(gameId, userName);
 
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
             await Clients.Client(_groupStore.GetGroupHost(gameId)).SendAsync(ClientMethods.OnPlayerJoined, userName);
