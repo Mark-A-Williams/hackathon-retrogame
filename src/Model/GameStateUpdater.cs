@@ -74,8 +74,8 @@ namespace Model
         {
             foreach (var player in gameState.Players)
             {
-                var edgeStart = GetPlayerAreaStart(player, gameState.Players.Count);
-                var edgeEnd = GetPlayerAreaEnd(player, gameState.Players.Count);
+                var edgeStart = GetPlayerAreaEndCoords(player, gameState.Players.Count, End.Start);
+                var edgeEnd = GetPlayerAreaEndCoords(player, gameState.Players.Count, End.End);
                 var ballEncounteredPlayersArea = LinesIntersect(
                     edgeStart, edgeEnd, oldBall, newBall
                 );
@@ -88,12 +88,11 @@ namespace Model
 
         public static bool DidBallMoveIntersectPlayerPaddle(Vector oldBall, Vector newBall, Player player, int numPlayers)
         {
-            var paddleStart = GetPaddleStartCoords(player, numPlayers);
-            var paddleEnd = GetPaddleEndCoords(player, numPlayers);
+            var paddleStart = GetPlayerAreaEndCoords(player, numPlayers, End.Start);
+            var paddleEnd = GetPlayerAreaEndCoords(player, numPlayers, End.End);
             return LinesIntersect(
                     paddleStart, paddleEnd, oldBall, newBall
                 );
-
         }
 
         public static bool OnSegment(Vector p, Vector q, Vector r) 
@@ -138,16 +137,16 @@ namespace Model
         {
             var numPlayers = gameState.Players.Count;
             var ballLine = new Line(oldBall, newBall);
-            var paddleLine = new Line(GetPaddleStartCoords(player, numPlayers), GetPaddleEndCoords(player, numPlayers));
+            var paddleLine = new Line(GetPaddleEndCoords(player, numPlayers, End.Start), GetPaddleEndCoords(player, numPlayers, End.End));
             var intersectionPoint = LineIntersectionService.FindIntersection(ballLine, paddleLine);
-            var newVelocity = BallVelocityAfterCollision(oldBall, gameState, player);
+            var newVelocity = GetBallVelocityAfterCollision(oldBall, gameState, player);
 
 
             // who even knows what this will look like
             return new Ball(intersectionPoint, newVelocity);
         }
 
-        public static Vector BallVelocityAfterCollision(Vector oldBall, GameState gameState, Player player)
+        public static Vector GetBallVelocityAfterCollision(Vector oldBall, GameState gameState, Player player)
         {
             var velocityAbsolute = Math.Sqrt(Math.Pow(oldBall.X,2)+Math.Pow(oldBall.Y,2));
             var beta = Math.PI*(1 - 2*player.Index/gameState.Players.Count);
@@ -173,60 +172,43 @@ namespace Model
             return new GameState(resurrectedBall, newPlayerList);
         }
 
-        public static Vector GetPlayerAreaCentre(Player player, GameState gameState)
+        //public static Vector GetPlayerAreaCentre(Player player, GameState gameState)
+        //{
+        //    // going with a game region radius of 1 for simplicity
+        //    var numPlayers = gameState.Players.Count;
+        //    var theta_n = 2*Math.PI*player.Index/numPlayers;
+        //    var phi = Math.Cos(Math.PI/numPlayers);
+        //    var xPos = phi*Math.Cos(theta_n);
+        //    var yPos = phi*Math.Sin(theta_n); 
+        //    return new Vector(xPos, yPos);
+        //}
+
+        public static Vector GetPlayerAreaEndCoords(Player player, int numPlayers, End end)
         {
-            // going with a game region radius of 1 for simplicity
-            var numPlayers = 8; // will get this from gamestate, could be any int!
-            var theta_n = 2*Math.PI*player.Index/numPlayers;
-            var phi = Math.Cos(Math.PI/numPlayers);
-            var xPos = phi*Math.Cos(theta_n);
-            var yPos = phi*Math.Sin(theta_n); 
-            return new Vector(xPos, yPos);
+            var adjustedIndex = end == End.Start ? player.Index - 1 : player.Index + 1;
+            var alpha = (adjustedIndex)*Math.PI/numPlayers; // angle from the vertical of the relevant end
+            return new Vector(Math.Cos(alpha), Math.Sin(alpha));
         }
 
-        public static Vector GetPlayerAreaStart(Player player, int numPlayers)
+        public static Vector GetPaddleEndCoords(Player player, int numPlayers, End end)
         {
-            var alpha_1 = (player.Index-1)*Math.PI/numPlayers; // angle from the vertical of the start
-            return new Vector(Math.Cos(alpha_1), Math.Sin(alpha_1));
+            var vStart = GetPlayerAreaEndCoords(player, numPlayers, End.Start); // vector coordinates of start end of area
+            var vEnd = GetPlayerAreaEndCoords(player, numPlayers, End.End); // vector coordinates of end end of area
+
+            double proportionalPaddleLength = 0.3;
+            var adjustedPosition = player.Position * (1 - proportionalPaddleLength)
+                + proportionalPaddleLength / 2;
+
+            var scaleBy = adjustedPosition;
+            scaleBy += end == End.Start ? -1 * proportionalPaddleLength / 2 : proportionalPaddleLength / 2;
+
+            return vStart.Add(vEnd.Subtract(vStart).ScalarMultiply(scaleBy));
         }
+    }
 
-        public static Vector GetPlayerAreaEnd(Player player, int numPlayers)
-        {
-            var alpha_2 = (player.Index+1)*Math.PI/numPlayers; // angle from the vertical of the end
-            return new Vector(Math.Cos(alpha_2), Math.Sin(alpha_2));
-        }
-
-        public static Vector GetPaddleStartCoords(Player player, int numPlayers)
-        {
-            var vStart = GetPlayerAreaStart(player, numPlayers); // vector coordinates of start end of area
-            var vEnd = GetPlayerAreaEnd(player, numPlayers); // vector coordinates of end end of area
-
-            double proportionalPaddleLength = 0.3; // will get from gamestate!!!!
-            var adjustedPosition = player.Position * (1-proportionalPaddleLength) 
-                + proportionalPaddleLength/2;
-
-            return vStart.Add(
-                vEnd.Subtract(vStart).ScalarMultiply(
-                    (adjustedPosition - proportionalPaddleLength / 2) 
-                )
-            );
-        }
-
-        // this method is literally a duplicate of the previous one but with a sign change
-        public static Vector GetPaddleEndCoords(Player player, int numPlayers)
-        {
-            var vStart = GetPlayerAreaStart(player, numPlayers); // vector coordinates of start end of area
-            var vEnd = GetPlayerAreaEnd(player, numPlayers); // vector coordinates of end end of area
-
-            double proportionalPaddleLength = 0.3; // will get from gamestate!!!!
-            var adjustedPosition = player.Position * (1-proportionalPaddleLength) 
-                + proportionalPaddleLength/2;
-
-            return vStart.Add(
-                vEnd.Subtract(vStart).ScalarMultiply(
-                    (adjustedPosition + proportionalPaddleLength / 2) 
-                )
-            );
-        }
+    public enum End
+    {
+        Start,
+        End
     }
 }
